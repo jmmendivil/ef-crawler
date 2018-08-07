@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/jmmendivil/ef-crawler#readme",
   "dependencies": {
-    "crawler": "^1.1.4"
+    "crawler": "^1.1.4",
+    "progress": "^2.0.0"
   }
 }

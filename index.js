@@ -1,9 +1,11 @@
 // Get author and published date from urls
 // save the crawler results to a file
+
 const fs = require('fs')
 const Crawler = require("crawler")
 const urlsFile = './urls'
 const saveFile = fs.createWriteStream('./result')
+const ProgressBar = require('progress');
 const c = new Crawler({
   maxConnections: 10,
   userAgent: ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'],
@@ -34,15 +36,16 @@ const c = new Crawler({
         published,
         pageviews,
         browsers,
+        views,
         uri
       ]
-
       saveFile.write(response.join('\t') + '\n')
-      console.log('OK >> ', uri)
+      bar.tick({ uri })
     }
     done()
   }
 })
+let bar
 
 // TODO: Use stream for bigger files
 fs.readFile(urlsFile, 'utf8', function(err, data) {
@@ -63,5 +66,6 @@ fs.readFile(urlsFile, 'utf8', function(err, data) {
         uri
       }
     })
+  bar = new ProgressBar('Generado >> :uri\n- [:bar] - :percent :etas', { total: urls.length });
   c.queue(urls)
 });
