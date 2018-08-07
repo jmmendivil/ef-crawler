@@ -24,15 +24,17 @@ const c = new Crawler({
         published = $('.note-date .publish').eq(0).text()
       }
       saveFile.write(author + '\t' + published + '\t' + href + '\n')
+      // console.log(author + '\t' + published + '\t' + href + '\n')
       console.log('OK >> ', href)
     }
     done()
   }
 })
 
+// TODO: Use stream for bigger files
 fs.readFile(urlsFile, 'utf8', function(err, data) {
   if (err) throw err;
   console.log('Read urls file >> OK');
-  const urls = data.split('\n')
+  const urls = data.split('\n').filter(u => u.length)
   c.queue(urls)
 });
