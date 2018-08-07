@@ -1,0 +1,23 @@
+{
+  "name": "ef-crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmmendivil/ef-crawler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmmendivil/ef-crawler/issues"
+  },
+  "homepage": "https://github.com/jmmendivil/ef-crawler#readme",
+  "dependencies": {
+    "crawler": "^1.1.4"
+  }
+}
