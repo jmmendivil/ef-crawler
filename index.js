@@ -23,7 +23,7 @@ const c = new Crawler({
         author = $('.note-author .name').text()
         published = $('.note-date .publish').eq(0).text()
       }
-      saveFile.write(author + '\t' + published + '\t' + href + '\n')
+      saveFile.write(author + '\t' + published + '\t' + '-' + '\t' + href + '\n')
       // console.log(author + '\t' + published + '\t' + href + '\n')
       console.log('OK >> ', href)
     }
