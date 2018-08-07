@@ -1,7 +1,9 @@
+// Get author and published date from urls
+// save the crawler results to a file
 const fs = require('fs')
 const Crawler = require("crawler")
 const urlsFile = './urls'
-const saveFile = fs.createWriteStream('./result.csv')
+const saveFile = fs.createWriteStream('./result')
 const c = new Crawler({
   maxConnections: 10,
   userAgent: ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'],
@@ -23,9 +25,20 @@ const c = new Crawler({
         author = $('.note-author .name').text()
         published = $('.note-date .publish').eq(0).text()
       }
-      saveFile.write(author + '\t' + published + '\t' + '-' + '\t' + href + '\n')
-      // console.log(author + '\t' + published + '\t' + href + '\n')
-      console.log('OK >> ', href)
+      // return same order response
+      // get missing params from options
+      const { pageviews, browsers, views, uri } = res.options
+
+      const response = [
+        author,
+        published,
+        pageviews,
+        browsers,
+        uri
+      ]
+
+      saveFile.write(response.join('\t') + '\n')
+      console.log('OK >> ', uri)
     }
     done()
   }
@@ -35,6 +48,20 @@ const c = new Crawler({
 fs.readFile(urlsFile, 'utf8', function(err, data) {
   if (err) throw err;
   console.log('Read urls file >> OK');
-  const urls = data.split('\n').filter(u => u.length)
+  const urls = data
+    .split('\n')
+    .filter(l => l.length)
+    .map(l => {
+      // 6 columns
+      const [ author, published, pageviews, browsers, views, uri ] = l.split('\t')
+      return {
+        author,
+        published,
+        pageviews,
+        browsers,
+        views,
+        uri
+      }
+    })
   c.queue(urls)
 });
